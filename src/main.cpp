@@ -89,14 +89,14 @@ double test_encoder_performance(const EncoderInfo &encoder) {
   for (int i = 0; i < TEST_FRAMES; ++i) {
     for (int y = 0; y < ctx->height; ++y) {
       for (int x = 0; x < ctx->width; ++x) {
-        frame->data[0][y * frame->linesize[0] + x] = x + y + i * 3;
+        frame->data[0][y * frame->linesize[0] + x] = (x + y + i * 3) & 0xFF;
       }
     }
 
     for (int y = 0; y < ctx->height / 2; ++y) {
       for (int x = 0; x < ctx->width / 2; ++x) {
-        frame->data[1][y * frame->linesize[1] + x] = 128 + y + i * 3;
-        frame->data[2][y * frame->linesize[2] + x] = 64 + x + i * 3;
+        frame->data[1][y * frame->linesize[1] + x] = (128 + y + i * 3) & 0xFF;
+        frame->data[2][y * frame->linesize[2] + x] = (64 + x + i * 3) & 0xFF;
       }
     }
 
@@ -127,7 +127,7 @@ double test_encoder_performance(const EncoderInfo &encoder) {
   av_packet_free(&pkt);
   avcodec_free_context(&ctx);
 
-  //Obtain how many frames of video can be encoded per second. 
+  // Obtain how many frames of video can be encoded per second.
   return TEST_FRAMES * 1.0 / diff * 1000.0;
 }
 
