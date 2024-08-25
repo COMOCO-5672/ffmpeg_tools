@@ -277,7 +277,7 @@ int main() {
   EncoderInfo best = find_best_encoder();
 
   if (best.codec_id != AV_CODEC_ID_NONE) {
-    std::cout << "\nBest encoder: " << best.name << " ("
+    std::cout << "\nBest device encoder: " << best.name << " ("
               << av_hwdevice_get_type_name(best.hw_type) << ")"
               << " with performance " << best.performance << " fps"
               << std::endl;
