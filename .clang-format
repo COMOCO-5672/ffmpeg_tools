@@ -27,22 +27,22 @@ AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: MultiLine
 AttributeMacros:
   - __capability
-BinPackArguments: true
-BinPackParameters: true
+BinPackArguments: false
+BinPackParameters: false
 BraceWrapping:
   AfterCaseLabel:  false
-  AfterClass:      false
-  AfterControlStatement: Never
+  AfterClass:      true
+  AfterControlStatement: false
   AfterEnum:       false
   AfterFunction:   true
-  AfterNamespace:  false
+  AfterNamespace:  true
   AfterObjCDeclaration: false
   AfterStruct:     false
   AfterUnion:      false
   AfterExternBlock: false
-  BeforeCatch:     false
-  BeforeElse:      false
-  BeforeLambdaBody: false
+  BeforeCatch:     true
+  BeforeElse:      true
+  BeforeLambdaBody: true
   BeforeWhile:     false
   IndentBraces:    false
   SplitEmptyFunction: true

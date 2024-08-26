@@ -7,7 +7,8 @@
 #define TEST_WIDTH 1920
 #define TEST_HEIGHT 1080
 
-namespace CODEC_INFO {
+namespace CODEC_INFO
+{
 EncodersInfo::EncodersInfo() {}
 
 EncodersInfo::~EncodersInfo() {}
@@ -144,7 +145,8 @@ double EncodersInfo::test_encoder_performance(std::string name, CODEC_INFO::MEDI
             c->color_primaries = AVCOL_PRI_BT2020;
             c->color_trc = AVCOL_TRC_SMPTE2084;
             c->colorspace = AVCOL_SPC_BT2020_NCL;
-        } else {
+        }
+        else {
             c->color_primaries = AVCOL_PRI_BT709;
             c->color_trc = AVCOL_TRC_BT709;
             c->colorspace = AVCOL_SPC_BT709;
@@ -186,7 +188,8 @@ double EncodersInfo::test_encoder_performance(std::string name, CODEC_INFO::MEDI
                 if (is_hdr) {
                     ((uint16_t *)frame->data[0])[y * frame->linesize[0] / 2 + x] =
                         ((x + y + i * 3) * 4) & max_value;
-                } else {
+                }
+                else {
                     frame->data[0][y * frame->linesize[0] + x] = (x + y + i * 3) & max_value;
                 }
             }
@@ -198,7 +201,8 @@ double EncodersInfo::test_encoder_performance(std::string name, CODEC_INFO::MEDI
                         ((512 + y + i * 2) * 4) & max_value;
                     ((uint16_t *)frame->data[2])[y * frame->linesize[2] / 2 + x] =
                         ((256 + x + i * 5) * 4) & max_value;
-                } else {
+                }
+                else {
                     frame->data[1][y * frame->linesize[1] + x] = (128 + y + i * 2) & max_value;
                     frame->data[2][y * frame->linesize[2] + x] = (64 + x + i * 5) & max_value;
                 }

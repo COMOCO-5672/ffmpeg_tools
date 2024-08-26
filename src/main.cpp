@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     std::vector<CODEC_INFO::CodecPerformance> list =
         encoders->DetectHwVideoEncoders(parse_args::E_MEDIA_TYPE);
 
-    auto best_encoder = std::max_element(
+    const auto best_encoder = std::max_element(
         list.begin(), list.end(),
         [](const CODEC_INFO::CodecPerformance &a, const CODEC_INFO::CodecPerformance &b) {
             return a.performance < b.performance;

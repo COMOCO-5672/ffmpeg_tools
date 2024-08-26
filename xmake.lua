@@ -2,11 +2,13 @@ add_rules("mode.debug", "mode.release")
 
 add_includedirs("./deps/CLI11")
 add_includedirs("./deps/ffmpeg/include")
+add_includedirs("./src/third_party")
+add_includedirs("./src/codec_info")
 
 target("ffmpeg_tools")
     set_kind("binary")
-    
-    add_files("src/*.cpp")
+
+    add_files("src/**.cpp")
     
     add_linkdirs("./deps/ffmpeg/lib/x64/windows")
     add_links("avcodec", "avdevice", "avfilter", "avformat", "avutil", "postproc", "swresample" ,"swscale")
