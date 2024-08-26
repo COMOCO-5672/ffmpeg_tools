@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+#include "CLI11.hpp"
+
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavutil/hwcontext.h>
@@ -267,8 +269,38 @@ EncoderInfo find_best_encoder()
     }
 }
 
-int main()
+namespace parse_args {
+enum class MEDIA_TYPE { NONE, SDR, HDR };
+static int I_MEDIA_TYPE = 0;
+
+void parse_media_type(CLI::App &app)
 {
+    std::string media_type_str;
+    app.add_option("-m,--media_type", media_type_str, "Media type (NONE, SDR, HDR)")->required();
+
+    app.parse_complete_callback([&]() {
+        if (media_type_str == "NONE") {
+            I_MEDIA_TYPE = static_cast<int>(MEDIA_TYPE::NONE);
+        } else if (media_type_str == "SDR") {
+            I_MEDIA_TYPE = static_cast<int>(MEDIA_TYPE::SDR);
+        } else if (media_type_str == "HDR") {
+            I_MEDIA_TYPE = static_cast<int>( MEDIA_TYPE::HDR);
+        } else {
+            throw CLI::ValidationError("Invalid media type. Please use NONE, SDR, or HDR.");
+        }
+    });
+};
+
+void parse_options(CLI::App &app) { parse_media_type(app); }
+
+}; // namespace parse_args
+
+int main(int argc, char** argv)
+{
+    CLI::App app { "Video Tools" };
+    parse_args::parse_options(app);
+    CLI11_PARSE(app, argc, argv);
+
     avcodec_register_all();
 
     EncoderInfo best = find_best_encoder();
