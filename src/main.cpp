@@ -48,7 +48,7 @@ int main(int argc, char **argv)
             return a.performance < b.performance;
         });
 
-    if (best_encoder != list.end() || best_encoder->codec_id == AV_CODEC_ID_NONE) {
+    if (best_encoder == list.end() || best_encoder->codec_id == AV_CODEC_ID_NONE) {
         std::cout << "No hardware encoders found." << std::endl;
     } else {
         std::cout << "\nBest device encoder: " << best_encoder->name << " with performance "
