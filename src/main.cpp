@@ -55,10 +55,10 @@ double test_encoder_performance(const EncoderInfo &encoder, bool is_hdr) {
   c->bit_rate = 5000000;
   c->width = TEST_WIDTH;
   c->height = TEST_HEIGHT;
-  c->time_base = (AVRational){1, 25};
-  c->framerate = (AVRational){25, 1};
-  c->gop_size = 10;
-  c->max_b_frames = 1;
+  c->time_base = {1, TEST_FRAMES};
+  c->framerate = {TEST_FRAMES, 1};
+  c->gop_size = TEST_FRAMES;
+  c->max_b_frames = 0;
   c->pix_fmt = is_hdr ? AV_PIX_FMT_YUV420P10LE : AV_PIX_FMT_YUV420P;
 
   if (is_hdr) {
@@ -169,9 +169,9 @@ double test_encoder_performance(const EncoderInfo &encoder) {
   ctx->bit_rate = 5000000;
   ctx->width = TEST_WIDTH;
   ctx->height = TEST_HEIGHT;
-  ctx->time_base = {1, 30};
-  ctx->framerate = {30, 1};
-  ctx->gop_size = 30;
+  ctx->time_base = {1, TEST_FRAMES};
+  ctx->framerate = {TEST_FRAMES, 1};
+  ctx->gop_size = TEST_FRAMES;
   ctx->max_b_frames = 1;
   ctx->pix_fmt = AV_PIX_FMT_YUV420P;
 
