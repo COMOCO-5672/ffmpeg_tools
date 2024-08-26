@@ -271,35 +271,30 @@ EncoderInfo find_best_encoder()
 
 namespace parse_args {
 enum class MEDIA_TYPE { NONE, SDR, HDR };
-static int I_MEDIA_TYPE = 0;
+static MEDIA_TYPE E_MEDIA_TYPE = MEDIA_TYPE::NONE;
 
 void parse_media_type(CLI::App &app)
 {
-    std::string media_type_str;
-    app.add_option("-m,--media_type", media_type_str, "Media type (NONE, SDR, HDR)")->required();
-
-    app.parse_complete_callback([&]() {
-        if (media_type_str == "NONE") {
-            I_MEDIA_TYPE = static_cast<int>(MEDIA_TYPE::NONE);
-        } else if (media_type_str == "SDR") {
-            I_MEDIA_TYPE = static_cast<int>(MEDIA_TYPE::SDR);
-        } else if (media_type_str == "HDR") {
-            I_MEDIA_TYPE = static_cast<int>( MEDIA_TYPE::HDR);
-        } else {
-            throw CLI::ValidationError("Invalid media type. Please use NONE, SDR, or HDR.");
-        }
-    });
+    std::map<std::string, MEDIA_TYPE> mode_map{
+        {"none", MEDIA_TYPE::NONE},
+        {"sdr", MEDIA_TYPE::SDR},
+        {"hdr", MEDIA_TYPE::HDR},
+    };
+    app.add_option("-m,--media_type", E_MEDIA_TYPE, "Media type (NONE, SDR, HDR)")
+        ->transform(CLI::CheckedTransformer(mode_map, CLI::ignore_case));
 };
 
 void parse_options(CLI::App &app) { parse_media_type(app); }
 
 }; // namespace parse_args
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     CLI::App app { "Video Tools" };
     parse_args::parse_options(app);
     CLI11_PARSE(app, argc, argv);
+
+    std::cout << "media_type:" << static_cast<int>(parse_args::E_MEDIA_TYPE) << std::endl;
 
     avcodec_register_all();
 
