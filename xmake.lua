@@ -4,9 +4,9 @@ target("ffmpeg_tools")
     set_kind("binary")
     add_files("src/*.cpp")
 
-    add_includedirs("D:/Env_Install/ffmpeg-n4.4-19/include")
+    add_includedirs("./deps/ffmpeg/include")
     
-    add_linkdirs("D:/Env_Install/ffmpeg-n4.4-19/lib/x64/windows")
+    add_linkdirs("./deps/ffmpeg/lib/x64/windows")
     add_links("avcodec", "avdevice", "avfilter", "avformat", "avutil", "postproc", "swresample" ,"swscale")
 
 --
