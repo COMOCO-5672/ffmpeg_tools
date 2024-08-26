@@ -30,6 +30,7 @@ std::vector<std::tuple<std::string, AVCodecID>> EncodersInfo::GetAllEncoders(AVM
         if (codec->capabilities & AV_CODEC_CAP_HARDWARE)
             encoders.emplace_back(std::pair { codec->name, codec->id });
     }
+    return encoders;
 }
 
 std::vector<std::tuple<std::string, AVCodecID>> EncodersInfo::GetHwEncoders(AVMediaType media_type)

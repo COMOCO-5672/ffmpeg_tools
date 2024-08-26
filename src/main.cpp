@@ -8,7 +8,8 @@
 #include "encoders_info.h"
 #include "ff_include.h"
 
-namespace parse_args {
+namespace parse_args
+{
 
 static CODEC_INFO::MEDIA_TYPE E_MEDIA_TYPE = CODEC_INFO::MEDIA_TYPE::NONE;
 
@@ -43,14 +44,15 @@ int main(int argc, char **argv)
         encoders->DetectHwVideoEncoders(parse_args::E_MEDIA_TYPE);
 
     const auto best_encoder = std::max_element(
-        list.begin(), list.end(),
-        [](const CODEC_INFO::CodecPerformance &a, const CODEC_INFO::CodecPerformance &b) {
-            return a.performance < b.performance;
-        });
+        list.begin(),
+        list.end(),
+        [](const CODEC_INFO::CodecPerformance &a, const CODEC_INFO::CodecPerformance &b)
+        { return a.performance < b.performance; });
 
     if (best_encoder == list.end() || best_encoder->codec_id == AV_CODEC_ID_NONE) {
         std::cout << "No hardware encoders found." << std::endl;
-    } else {
+    }
+    else {
         std::cout << "\nBest device encoder: " << best_encoder->name << " with performance "
                   << best_encoder->performance << " fps" << std::endl;
     }
