@@ -39,22 +39,15 @@ int main(int argc, char **argv)
     avcodec_register_all();
 
     auto encoders = new CODEC_INFO::EncodersInfo();
+    CODEC_INFO::CodecPerformance codec_info;
+    const auto find_encoder = encoders->FindBestHwVideoEncoder(parse_args::E_MEDIA_TYPE, codec_info);
 
-    std::vector<CODEC_INFO::CodecPerformance> list =
-        encoders->DetectHwVideoEncoders(parse_args::E_MEDIA_TYPE);
-
-    const auto best_encoder = std::max_element(
-        list.begin(),
-        list.end(),
-        [](const CODEC_INFO::CodecPerformance &a, const CODEC_INFO::CodecPerformance &b)
-        { return a.performance < b.performance; });
-
-    if (best_encoder == list.end() || best_encoder->codec_id == AV_CODEC_ID_NONE) {
+    if (find_encoder) {
         std::cout << "No hardware encoders found." << std::endl;
     }
     else {
-        std::cout << "\nBest device encoder: " << best_encoder->name << " with performance "
-                  << best_encoder->performance << " fps" << std::endl;
+        std::cout << "\nBest device encoder: " << codec_info.name << " with performance "
+                  << codec_info.performance << " fps" << std::endl;
     }
 
     return 0;

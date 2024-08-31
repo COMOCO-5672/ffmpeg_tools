@@ -24,6 +24,9 @@ class EncodersInfo
     std::vector<CODEC_INFO::CodecPerformance>
     DetectHwVideoEncoders(CODEC_INFO::MEDIA_TYPE media_type);
 
+    bool FindBestHwVideoEncoder(CODEC_INFO::MEDIA_TYPE media_type,
+                                CODEC_INFO::CodecPerformance &find_codec_info);
+
   private:
     double test_encoder_performance(std::string name, CODEC_INFO::MEDIA_TYPE media_type);
 };

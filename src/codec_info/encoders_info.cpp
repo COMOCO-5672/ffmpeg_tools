@@ -120,6 +120,28 @@ EncodersInfo::DetectHwVideoEncoders(CODEC_INFO::MEDIA_TYPE media_type)
     return encoders;
 }
 
+bool EncodersInfo::FindBestHwVideoEncoder(CODEC_INFO::MEDIA_TYPE media_type,
+                                          CODEC_INFO::CodecPerformance &find_codec_info)
+{
+    std::vector<CODEC_INFO::CodecPerformance> list = DetectHwVideoEncoders(media_type);
+
+    const auto best_encoder = std::max_element(
+        list.begin(),
+        list.end(),
+        [](const CODEC_INFO::CodecPerformance &a, const CODEC_INFO::CodecPerformance &b)
+        { return a.performance < b.performance; });
+
+    bool find = false;
+    if (best_encoder == list.end() || best_encoder->codec_id == AV_CODEC_ID_NONE) {
+        find = false;
+    }
+    else {
+        find = true;
+        find_codec_info = *best_encoder;
+    }
+    return find;
+}
+
 double EncodersInfo::test_encoder_performance(std::string name, CODEC_INFO::MEDIA_TYPE media_type)
 {
     AVCodec *codec = avcodec_find_encoder_by_name(name.c_str());
