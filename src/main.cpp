@@ -51,6 +51,12 @@ int main(int argc, char **argv)
                   << codec_info.performance << " fps" << std::endl;
     }
 
+    auto encoders_list = encoders->GetDeviceHwEncoders(AVMediaType::AVMEDIA_TYPE_VIDEO);
+     for (auto &item : encoders_list) {
+        std::cout << "Supported HW encoder: " << std::get<0>( item).c_str() 
+                                  << " (Device: " << av_hwdevice_get_type_name(std::get<2>(item)) << ")" << std::endl;
+    }
+    std::cout << std::endl;
     auto decoders = new CODEC_INFO::DecodersInfo();
     auto decoders_list = decoders->GetDeviceHwDecoders(AVMediaType::AVMEDIA_TYPE_VIDEO);
     for (auto &item : decoders_list) {

@@ -16,6 +16,7 @@ class EncodersInfo
     std::vector<std::tuple<std::string, AVCodecID>> GetAllEncoders(AVMediaType media_type);
 
     std::vector<std::tuple<std::string, AVCodecID>> GetHwEncoders(AVMediaType media_type);
+    std::vector<std::tuple<std::string, AVCodecID, AVHWDeviceType>> GetDeviceHwEncoders(AVMediaType media_type);
     std::vector<std::tuple<std::string, AVCodecID>> GetSwEncoders(AVMediaType media_type);
 
     std::vector<std::tuple<std::string, AVCodecID>> GetHwEncoders(AVHWDeviceType hw_type);

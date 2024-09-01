@@ -56,6 +56,43 @@ std::vector<std::tuple<std::string, AVCodecID>> EncodersInfo::GetHwEncoders(AVMe
     return encoders;
 }
 
+std::vector<std::tuple<std::string, AVCodecID, AVHWDeviceType>>
+EncodersInfo::GetDeviceHwEncoders(AVMediaType media_type)
+{
+    std::vector<std::tuple<std::string, AVCodecID, AVHWDeviceType>> encoders;
+    AVHWDeviceType hw_type = AV_HWDEVICE_TYPE_NONE;
+
+    while ((hw_type = av_hwdevice_iterate_types(hw_type)) != AV_HWDEVICE_TYPE_NONE) {
+
+        AVBufferRef *hw_device_ctx = nullptr;
+        if (av_hwdevice_ctx_create(&hw_device_ctx, hw_type, nullptr, nullptr, 0) != 0)
+            continue;
+
+        const AVCodec *codec = nullptr;
+        void *opaque = nullptr;
+
+        while ((codec = av_codec_iterate(&opaque))) {
+            if (!av_codec_is_encoder(codec) || codec->type != media_type)
+                continue;
+
+            AVCodecContext *ctx = avcodec_alloc_context3(codec);
+            if (!ctx)
+                continue;
+
+            ctx->bit_rate = 400000;
+            ctx->width = 1920;
+            ctx->height = 1080;
+            ctx->time_base = { 1, 25 };
+            ctx->framerate = { 25, 1 };
+            ctx->pix_fmt = AV_PIX_FMT_YUV420P;
+
+            if (avcodec_open2(ctx, codec, nullptr) == 0)
+                encoders.emplace_back(codec->name, codec->id, hw_type);
+        }
+    }
+    return encoders;
+}
+
 std::vector<std::tuple<std::string, AVCodecID>> EncodersInfo::GetSwEncoders(AVMediaType media_type)
 {
 
