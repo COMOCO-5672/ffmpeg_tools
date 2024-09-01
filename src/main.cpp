@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "CLI11.hpp"
-#include "codec_info.h"
-#include "decoders_info.h"
-#include "encoders_info.h"
-#include "ff_include.h"
+#include "codec_info/codec_info.h"
+#include "codec_info/decoders_info.h"
+#include "codec_info/encoders_info.h"
+#include "third_party/ff_include.h"
 
 namespace parse_args
 {
