@@ -5,8 +5,8 @@
 
 #include "CLI11.hpp"
 #include "codec_info.h"
-#include "encoders_info.h"
 #include "decoders_info.h"
+#include "encoders_info.h"
 #include "ff_include.h"
 
 namespace parse_args
@@ -41,7 +41,8 @@ int main(int argc, char **argv)
 
     auto encoders = new CODEC_INFO::EncodersInfo();
     CODEC_INFO::CodecPerformance codec_info;
-    const auto find_encoder = encoders->FindBestHwVideoEncoder(parse_args::E_MEDIA_TYPE, codec_info);
+    const auto find_encoder =
+        encoders->FindBestHwVideoEncoder(parse_args::E_MEDIA_TYPE, codec_info);
 
     if (!find_encoder) {
         std::cout << "No hardware encoders found." << std::endl;
@@ -50,18 +51,20 @@ int main(int argc, char **argv)
         std::cout << "\nBest device encoder: " << codec_info.name << " with performance "
                   << codec_info.performance << " fps" << std::endl;
     }
-
-    auto encoders_list = encoders->GetDeviceHwEncoders(AVMediaType::AVMEDIA_TYPE_VIDEO);
-     for (auto &item : encoders_list) {
-        std::cout << "Supported HW encoder: " << std::get<0>( item).c_str() 
-                                  << " (Device: " << av_hwdevice_get_type_name(std::get<2>(item)) << ")" << std::endl;
+    std::cout << std::endl;
+    const auto encoders_list = encoders->GetDeviceHwEncoders(AVMediaType::AVMEDIA_TYPE_VIDEO);
+    for (auto &item : encoders_list) {
+        std::cout << "Supported HW encoder: " << std::get<0>(item).c_str()
+                  << " (Device: " << av_hwdevice_get_type_name(std::get<2>(item)) << ")"
+                  << std::endl;
     }
     std::cout << std::endl;
     auto decoders = new CODEC_INFO::DecodersInfo();
     auto decoders_list = decoders->GetDeviceHwDecoders(AVMediaType::AVMEDIA_TYPE_VIDEO);
     for (auto &item : decoders_list) {
-        std::cout << "Supported HW decoder: " << std::get<0>( item).c_str() 
-                                  << " (Device: " << av_hwdevice_get_type_name(std::get<2>(item)) << ")" << std::endl;
+        std::cout << "Supported HW decoder: " << std::get<0>(item).c_str()
+                  << " (Device: " << av_hwdevice_get_type_name(std::get<2>(item)) << ")"
+                  << std::endl;
     }
 
     return 0;
