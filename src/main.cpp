@@ -12,20 +12,20 @@
 namespace parse_args
 {
 
-static CODEC_INFO::MEDIA_TYPE E_MEDIA_TYPE = CODEC_INFO::MEDIA_TYPE::NONE;
+    static CODEC_INFO::MEDIA_TYPE E_MEDIA_TYPE = CODEC_INFO::MEDIA_TYPE::NONE;
 
-void parse_media_type(CLI::App &app)
-{
-    std::map<std::string, CODEC_INFO::MEDIA_TYPE> mode_map {
-        { "none", CODEC_INFO::MEDIA_TYPE::NONE },
-        { "sdr", CODEC_INFO::MEDIA_TYPE::SDR },
-        { "hdr", CODEC_INFO::MEDIA_TYPE::HDR },
+    void parse_media_type(CLI::App &app)
+    {
+        std::map<std::string, CODEC_INFO::MEDIA_TYPE> mode_map {
+            { "none", CODEC_INFO::MEDIA_TYPE::NONE },
+            { "sdr", CODEC_INFO::MEDIA_TYPE::SDR },
+            { "hdr", CODEC_INFO::MEDIA_TYPE::HDR },
+        };
+        app.add_option("-m,--media_type", E_MEDIA_TYPE, "Media type (NONE, SDR, HDR)")
+            ->transform(CLI::CheckedTransformer(mode_map, CLI::ignore_case));
     };
-    app.add_option("-m,--media_type", E_MEDIA_TYPE, "Media type (NONE, SDR, HDR)")
-        ->transform(CLI::CheckedTransformer(mode_map, CLI::ignore_case));
-};
 
-void parse_options(CLI::App &app) { parse_media_type(app); }
+    void parse_options(CLI::App &app) { parse_media_type(app); }
 
 }; // namespace parse_args
 
