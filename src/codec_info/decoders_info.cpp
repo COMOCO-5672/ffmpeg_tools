@@ -59,7 +59,7 @@ namespace CODEC_INFO
                         }
 
                         ctx->hw_device_ctx = av_buffer_ref(hw_device_ctx);
-                        if (avcodec_open2(ctx, codec, nullptr) >= 0) {
+                        if (avcodec_open2(ctx, codec, nullptr) == 0) {
                             supported_decoders.emplace_back(codec->name, codec->id, hw_type);
                         }
                         avcodec_free_context(&ctx);
